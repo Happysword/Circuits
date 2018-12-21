@@ -1,0 +1,4 @@
+HOW TO USE 
+Type the name of the File in the console then press enter 
+Codex of Input is similar to the project actually  it is the same and it saves the output in a seperate file
+but its Codex is Kinda messed 

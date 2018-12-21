@@ -1,0 +1,26 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+before_install:
+  - echo $LANG
+  - echo $LC_ALL
+  - sudo apt-get update
+  - sudo apt-get install libgtest-dev
+  - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
+script: scons -c && scons && ./bin/test && ./bin/mna ./data/simples.net
+branches:
+  only:
+    - master
+    - mnap
+    - mnapoly
+notifications:
+  recipients:
+    - dhiana.deva@gmail.com
+    - silvinov@gmail.com
+    - felipedeleo@gmail.com
+  email:
+    on_success: change
+    on_failure: always
+os:
+  - linux
