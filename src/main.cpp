@@ -20,7 +20,7 @@ int main(int argc, char **argv){
 
     int rc=0;
     ifstream netlistFile;
-    double Yn[MAX_NODES+1][MAX_NODES+2];
+    double Yn[MAX_NODES+1][MAX_NODES+2], Xn[MAX_NODES + 1][MAX_NODES + 2];
     Circuit circuit;
 
 
@@ -29,15 +29,17 @@ int main(int argc, char **argv){
     cout << "Reading netlist:" << endl;
     circuit = Circuit(netlistFile);
 
+	
+
     // Operations on the modified matrix...
     init(circuit.getNumVariables(), Yn);
+	init(circuit.getNumVariables(), Xn);
     circuit.applyStamps(Yn);
+	circuit.applyStamps(Xn);
     rc = solve(circuit.getNumVariables(), Yn);
     if (rc) // if not return code 0 (success)
         exitPolitely(EXIT_FAILURE);
 
-
-    
 
     cout << "Solution:" << endl;
     circuit.printSolution(Yn);

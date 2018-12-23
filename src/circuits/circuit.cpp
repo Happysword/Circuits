@@ -41,7 +41,7 @@ Circuit::Circuit(ifstream &netlistFile):
     // XXX Magic! Really important!
     // Ground node!
     variablesList[0] = "0";
-
+	
     string netlistLine;
     bool isValidElement;
     char netlistLinePrefix;
@@ -106,11 +106,7 @@ void Circuit::applyStamps(double Yn[MAX_NODES+1][MAX_NODES+2]){
         element = netlist[i];
         // Will pass previousSolution in the near future...
         element.applyStamp(Yn, numVariables);
-        #ifdef DEBUG
-        cout << "System after stamp of " << element.getName() << endl;
-        print(numVariables, Yn);
-        #endif
-
+		
     }
 }
 
@@ -118,10 +114,34 @@ void Circuit::printSolution(double Yn[MAX_NODES+1][MAX_NODES+2]){
     for (int i=1; i<=numVariables; i++) {
 		std::cout << std::fixed;
 		std::cout << std::setprecision(4);
-        cout << variablesList[i] << ":\t" << Yn[i][numVariables+1] << endl;
+        cout <<variablesList[i]<<":  " << Yn[i][numVariables+1] << endl;
     }
+	//to work on later
+	/*
+	for (int i = 0; i <= numNodes; i++) {
+		std::cout << std::fixed;
+		std::cout << std::setprecision(4);
+		if (i==numNodes) { cout << "I" << i << 0 << ":  " << Currents[i] << endl; }
+		else {
+			cout << "I" << i << i + 1 << ":  " << Currents[i] << endl;
+		}
+	}*/
 }
 
+void Circuit::currentValues(double Yn[MAX_NODES + 1][MAX_NODES + 2], double Xn[MAX_NODES + 1][MAX_NODES + 2])
+{
+	for (int i=0;i<20;i++)
+	{
+		Currents[i] = 0;
+	}
+	for (int i = 0; i < numNodes; i++)
+	{
+		if (Xn[i][i + 1]!=0)
+		Currents[i] = (Yn[i][numVariables + 1] - Yn[i + 1][numVariables + 1])* Xn[i][i + 1];
+	}
+
+
+}
 
 /* Function to write the Solution into an Output File */
 bool Circuit::WriteSolutionToFile(string filename, double Yn[MAX_NODES + 1][MAX_NODES + 2]){
@@ -129,26 +149,10 @@ bool Circuit::WriteSolutionToFile(string filename, double Yn[MAX_NODES + 1][MAX_
     ofstream file(filename.c_str(), ofstream::out);
 
     /* Writing the Header */
-    for (int i = 0; i <= numVariables; i++){
-        if (i == 0)
-            file << "t ";
-        // The Nodal Tensions and Currents
-        else
-            file << variablesList[i] << " ";
+    for (int i = 1; i <= numVariables; i++){
+            file << variablesList[i] << ":  " << Yn[i][numVariables + 1] << endl;
     }
 
-    file << endl;
-    /* End of Header */
-
-    /* Start of Values Writing */
-    for (int i = 0; i <= numVariables; i++){
-        if (i == 0)
-            file << "0 ";
-        else if (i>0)
-            file << Yn[i][numVariables + 1] << " ";
-    }
-    file << std::endl;
-    /* Finish of Values Writing */
 
     // Printing the message about the file saved
     cout << endl;

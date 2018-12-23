@@ -38,7 +38,7 @@ class Circuit {
         int getNumElements();
         int getNumNodes();
         int getNumVariables();
-
+		void currentValues(double Yn[MAX_NODES + 1][MAX_NODES + 2], double Xn[MAX_NODES + 1][MAX_NODES + 2]);
     private:
 
         int numElements;
@@ -47,7 +47,7 @@ class Circuit {
         string title;
         vector<string> variablesList;
         vector<Element> netlist;
-
+		int Currents[20];
 };
 
 #endif
