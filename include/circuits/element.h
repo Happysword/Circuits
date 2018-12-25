@@ -14,7 +14,7 @@ public:
 
     Element(string netlistLine,
             int &numNodes,
-            vector<string> &variablesList);
+            vector<string> &variablesList,int s);
 
     Element(string name,
             double value,
@@ -38,14 +38,14 @@ public:
     string getName() const;
 
     static bool isValidElement(const char &netlistLinePrefix);
-
+	void setw(int g);
 private:
 
     char type;
     string name;
     double value;
     int a,b,c,d,x,y;
-
+	int w;
     char getType() const;
 
 };

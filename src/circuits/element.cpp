@@ -8,18 +8,19 @@
 //TODO: not to use cout inside Element class
 #include <iostream>
 //
-int w = 60;
+
+
 Element::Element()
 {
 }
 
 Element::Element(string netlistLine,
                  int &numNodes,
-                 vector<string> &variablesList)
+                 vector<string> &variablesList,int s)
 {
     stringstream sstream(netlistLine);
     char na[MAX_NAME], nb[MAX_NAME], nc[MAX_NAME], nd[MAX_NAME];
-
+	w = s;
     sstream >> name;
     type = getType();
     sstream.str( string(netlistLine, name.size(), string::npos) );

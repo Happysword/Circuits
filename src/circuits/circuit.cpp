@@ -46,6 +46,7 @@ Circuit::Circuit(ifstream &netlistFile):
     bool isValidElement;
     char netlistLinePrefix;
     getline(netlistFile, netlistLine);
+	 x = std::stoi(netlistLine);
     title = netlistLine;
     while (getline(netlistFile, netlistLine)) {
         netlistLinePrefix = netlistLine[0];
@@ -58,7 +59,7 @@ Circuit::Circuit(ifstream &netlistFile):
                 cout << "Invalid number of elements. Maximum number of elements is " << MAX_ELEMS << endl;
                 exit(EXIT_FAILURE);
             }
-            netlist[numElements] = Element(netlistLine, numNodes, variablesList);
+            netlist[numElements] = Element(netlistLine, numNodes, variablesList,x);
         }
         else if (netlistLinePrefix != '*') {
             // Not a comment, not a valid element...
@@ -126,6 +127,12 @@ void Circuit::printSolution(double Yn[MAX_NODES+1][MAX_NODES+2]){
 			cout << "I" << i << i + 1 << ":  " << Currents[i] << endl;
 		}
 	}*/
+	int f = 0;
+		for (int i = 0; i < numNodes; i++)
+		{
+			cout << "I" << i << i + 1 << ":  " << Yn[numNodes + 1][numVariables + 1] << endl; f = i;
+		}
+	cout << "I" << f << 0 << ":  " << Yn[numNodes + 1][numVariables + 1] << endl;
 }
 
 void Circuit::currentValues(double Yn[MAX_NODES + 1][MAX_NODES + 2], double Xn[MAX_NODES + 1][MAX_NODES + 2])

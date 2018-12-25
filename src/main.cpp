@@ -29,7 +29,7 @@ int main(int argc, char **argv){
     cout << "Reading netlist:" << endl;
     circuit = Circuit(netlistFile);
 
-	
+
 
     // Operations on the modified matrix...
     init(circuit.getNumVariables(), Yn);
